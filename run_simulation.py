@@ -6,8 +6,13 @@ from utils.trade_logic import execute_trade_logic
 # Load dataset
 data = load_korean_stock_data('data/korean_stock_data.csv')
 
-# List to store the signals
+# List to store the signals and trades
 signals = []
+trades = []
+
+portfolio_value = 10000  # Starting portfolio value
+position = 0  # No position initially
+cash = portfolio_value
 
 # Loop through each data point
 for i in range(len(data)):
@@ -43,15 +48,28 @@ for i in range(len(data)):
     })
 
     # Execute the trading logic based on the strategy signals
-    # Choose which strategy signal to base the decision on, here using BBANDS as an example
-    trade_signal = signal_bbands  # You can change this to use any indicator's signal
-    execute_trade_logic(data.iloc[i], trade_signal)
+    trade_signal = signal_bbands  # You can change this to use any indicator's signal (e.g., "EMA", "MACD", etc.)
+
+    # Execute trade and track portfolio
+    if trade_signal == "Buy" and position == 0:  # Buy if no position
+        position = cash / data.iloc[i]["closing_price"]
+        cash = 0
+        trades.append(f"Buy at {data.index[i]} - {data.iloc[i]['closing_price']}")
+        
+    elif trade_signal == "Sell" and position > 0:  # Sell if holding position
+        cash = position * data.iloc[i]["closing_price"]
+        position = 0
+        trades.append(f"Sell at {data.index[i]} - {data.iloc[i]['closing_price']}")
+
+    # Print portfolio status after each transaction
+    current_value = cash + (position * data.iloc[i]["closing_price"]) if position > 0 else cash
+    print(f"Date: {data.index[i]}, Portfolio Value: {current_value}")
+
+# Final portfolio value (cash + any position left)
+final_value = cash + (position * data.iloc[-1]["closing_price"]) if position > 0 else cash
+print(f"\nFinal Portfolio Value: {final_value}")
+print("Trades:", trades)
 
 # Print all signals
 for signal in signals:
     print(signal)
-
-
-# {'Date': '2025-02-11', 'BBANDS': 'Hold', 'EMA': 'Buy', 'MACD': 'Buy', 'RSI': 'Neutral'}
-# {'Date': '2025-02-10', 'BBANDS': 'Buy', 'EMA': 'Sell', 'MACD': 'Hold', 'RSI': 'Sell'}
-
