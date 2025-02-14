@@ -71,5 +71,6 @@ print(f"\nFinal Portfolio Value: {final_value}")
 print("Trades:", trades)
 
 # Print all signals
+print("\nAll Signals:")
 for signal in signals:
     print(signal)
