@@ -1,3 +1,5 @@
+# Bollinger Bands, ATR
+
 def calculate_vwap(data):
     vwap = (data['closing_price'] * data['num_of_shares']).sum() / data['num_of_shares'].sum()
     return vwap

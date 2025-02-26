@@ -1,11 +1,18 @@
 import pandas as pd
 
-def load_korean_stock_data(file_path):
-    # Ensure the file is loaded with proper header and timestamp parsing
-    df = pd.read_csv(file_path, parse_dates=['timestamp'])
-    
-    # Convert the 'timestamp' column to datetime (if it's not already) and set it as index
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
-    df.set_index('timestamp', inplace=True)
-    
+def load_stock_data(filepath):
+    """Load stock data and standardize column names."""
+    df = pd.read_csv(filepath, parse_dates=["Date" if "Date" in pd.read_csv(filepath, nrows=1).columns else "timestamp"])
+
+    # Standardize column names
+    if "Date" in df.columns:  # KOSPI dataset
+        df.rename(columns={
+            "Date": "date",
+            "Open": "opening_price",
+            "High": "highest_price",
+            "Low": "lowest_price",
+            "Close": "closing_price",
+            "Volume": "trading_volume"
+        }, inplace=True)
+
     return df

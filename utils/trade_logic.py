@@ -70,3 +70,13 @@ def execute_trade_logic_based_on_signals(data: Any, signals: List[Dict[str, str]
     else:
         print(f"Date: {data.index}, Action: Hold")
         return "Hold"
+
+
+def generate_trade_signal(price_pred, macd_signal, sentiment_score):
+    """Combine AI model predictions with technical indicators and sentiment analysis."""
+    if price_pred > 1.02 and macd_signal == "Buy" and sentiment_score > 0.5:
+        return "BUY"
+    elif price_pred < 0.98 and macd_signal == "Sell" and sentiment_score < -0.5:
+        return "SELL"
+    else:
+        return "HOLD"

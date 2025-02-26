@@ -1,0 +1,90 @@
+2025-02-26 16:36:20,182 - INFO - Epoch [1/50] - Train Loss: 0.0892 - Val Loss: 0.0354
+2025-02-26 16:37:00,405 - INFO - Epoch [1/50] - Train Loss: 0.1939 - Val Loss: 0.0173
+2025-02-26 16:37:00,719 - INFO - Epoch [2/50] - Train Loss: 0.0405 - Val Loss: 0.0106
+2025-02-26 16:37:01,032 - INFO - Epoch [3/50] - Train Loss: 0.0358 - Val Loss: 0.0168
+2025-02-26 16:37:01,343 - INFO - Epoch [4/50] - Train Loss: 0.0318 - Val Loss: 0.0154
+2025-02-26 16:37:01,663 - INFO - Epoch [5/50] - Train Loss: 0.0325 - Val Loss: 0.0152
+2025-02-26 16:37:02,028 - INFO - Epoch [6/50] - Train Loss: 0.0307 - Val Loss: 0.0166
+2025-02-26 16:37:02,356 - INFO - Epoch [7/50] - Train Loss: 0.0319 - Val Loss: 0.0150
+2025-02-26 16:37:02,356 - INFO - Early stopping triggered!
+2025-02-26 16:37:02,356 - INFO - Training complete. Model saved.
+2025-02-26 17:08:03,217 - INFO - Epoch [1/50] - Train Loss: 0.3519 - Val Loss: 0.1406
+2025-02-26 17:08:03,404 - INFO - Epoch [2/50] - Train Loss: 0.0986 - Val Loss: 0.0392
+2025-02-26 17:08:03,627 - INFO - Epoch [3/50] - Train Loss: 0.0679 - Val Loss: 0.0047
+2025-02-26 17:08:03,837 - INFO - Epoch [4/50] - Train Loss: 0.0610 - Val Loss: 0.0120
+2025-02-26 17:08:04,011 - INFO - Epoch [5/50] - Train Loss: 0.0516 - Val Loss: 0.0016
+2025-02-26 17:08:04,184 - INFO - Epoch [6/50] - Train Loss: 0.0503 - Val Loss: 0.0021
+2025-02-26 17:08:04,362 - INFO - Epoch [7/50] - Train Loss: 0.0482 - Val Loss: 0.0022
+2025-02-26 17:08:04,543 - INFO - Epoch [8/50] - Train Loss: 0.0485 - Val Loss: 0.0017
+2025-02-26 17:08:04,724 - INFO - Epoch [9/50] - Train Loss: 0.0488 - Val Loss: 0.0012
+2025-02-26 17:08:04,908 - INFO - Epoch [10/50] - Train Loss: 0.0487 - Val Loss: 0.0012
+2025-02-26 17:08:05,083 - INFO - Epoch [11/50] - Train Loss: 0.0492 - Val Loss: 0.0010
+2025-02-26 17:08:05,256 - INFO - Epoch [12/50] - Train Loss: 0.0492 - Val Loss: 0.0010
+2025-02-26 17:08:05,432 - INFO - Epoch [13/50] - Train Loss: 0.0497 - Val Loss: 0.0011
+2025-02-26 17:08:05,611 - INFO - Epoch [14/50] - Train Loss: 0.0473 - Val Loss: 0.0010
+2025-02-26 17:08:05,793 - INFO - Epoch [15/50] - Train Loss: 0.0470 - Val Loss: 0.0009
+2025-02-26 17:08:05,976 - INFO - Epoch [16/50] - Train Loss: 0.0514 - Val Loss: 0.0013
+2025-02-26 17:08:06,157 - INFO - Epoch [17/50] - Train Loss: 0.0484 - Val Loss: 0.0017
+2025-02-26 17:08:06,336 - INFO - Epoch [18/50] - Train Loss: 0.0478 - Val Loss: 0.0016
+2025-02-26 17:08:06,515 - INFO - Epoch [19/50] - Train Loss: 0.0476 - Val Loss: 0.0009
+2025-02-26 17:08:06,700 - INFO - Epoch [20/50] - Train Loss: 0.0494 - Val Loss: 0.0011
+2025-02-26 17:08:06,892 - INFO - Epoch [21/50] - Train Loss: 0.0471 - Val Loss: 0.0012
+2025-02-26 17:08:07,082 - INFO - Epoch [22/50] - Train Loss: 0.0474 - Val Loss: 0.0010
+2025-02-26 17:08:07,257 - INFO - Epoch [23/50] - Train Loss: 0.0478 - Val Loss: 0.0009
+2025-02-26 17:08:07,462 - INFO - Epoch [24/50] - Train Loss: 0.0485 - Val Loss: 0.0009
+2025-02-26 17:08:07,648 - INFO - Epoch [25/50] - Train Loss: 0.0481 - Val Loss: 0.0009
+2025-02-26 17:08:07,829 - INFO - Epoch [26/50] - Train Loss: 0.0494 - Val Loss: 0.0009
+2025-02-26 17:08:08,012 - INFO - Epoch [27/50] - Train Loss: 0.0487 - Val Loss: 0.0015
+2025-02-26 17:08:08,192 - INFO - Epoch [28/50] - Train Loss: 0.0483 - Val Loss: 0.0013
+2025-02-26 17:08:08,376 - INFO - Epoch [29/50] - Train Loss: 0.0477 - Val Loss: 0.0010
+2025-02-26 17:08:08,556 - INFO - Epoch [30/50] - Train Loss: 0.0489 - Val Loss: 0.0010
+2025-02-26 17:08:08,739 - INFO - Epoch [31/50] - Train Loss: 0.0483 - Val Loss: 0.0010
+2025-02-26 17:08:08,739 - INFO - Early stopping triggered!
+2025-02-26 17:08:08,740 - INFO - Training complete. Model saved.
+2025-02-26 17:31:00,748 - INFO - Epoch [1/50] - Train Loss: 0.2092 - Val Loss: 0.0103
+2025-02-26 17:31:01,093 - INFO - Epoch [2/50] - Train Loss: 0.0424 - Val Loss: 0.0106
+2025-02-26 17:31:01,446 - INFO - Epoch [3/50] - Train Loss: 0.0347 - Val Loss: 0.0185
+2025-02-26 17:31:01,796 - INFO - Epoch [4/50] - Train Loss: 0.0320 - Val Loss: 0.0132
+2025-02-26 17:31:02,144 - INFO - Epoch [5/50] - Train Loss: 0.0320 - Val Loss: 0.0170
+2025-02-26 17:31:02,506 - INFO - Epoch [6/50] - Train Loss: 0.0317 - Val Loss: 0.0164
+2025-02-26 17:31:02,507 - INFO - Early stopping triggered!
+2025-02-26 17:31:02,507 - INFO - Training complete. Model saved.
+2025-02-26 17:32:01,264 - INFO - Epoch [1/50] - Train Loss: 0.2230 - Val Loss: 0.0684
+2025-02-26 17:32:01,487 - INFO - Epoch [2/50] - Train Loss: 0.0709 - Val Loss: 0.0218
+2025-02-26 17:32:01,690 - INFO - Epoch [3/50] - Train Loss: 0.0614 - Val Loss: 0.0056
+2025-02-26 17:32:01,907 - INFO - Epoch [4/50] - Train Loss: 0.0524 - Val Loss: 0.0052
+2025-02-26 17:32:02,139 - INFO - Epoch [5/50] - Train Loss: 0.0490 - Val Loss: 0.0010
+2025-02-26 17:32:02,352 - INFO - Epoch [6/50] - Train Loss: 0.0486 - Val Loss: 0.0010
+2025-02-26 17:32:02,547 - INFO - Epoch [7/50] - Train Loss: 0.0484 - Val Loss: 0.0011
+2025-02-26 17:32:02,743 - INFO - Epoch [8/50] - Train Loss: 0.0499 - Val Loss: 0.0009
+2025-02-26 17:32:02,939 - INFO - Epoch [9/50] - Train Loss: 0.0476 - Val Loss: 0.0010
+2025-02-26 17:32:03,132 - INFO - Epoch [10/50] - Train Loss: 0.0470 - Val Loss: 0.0013
+2025-02-26 17:32:03,357 - INFO - Epoch [11/50] - Train Loss: 0.0473 - Val Loss: 0.0009
+2025-02-26 17:32:03,565 - INFO - Epoch [12/50] - Train Loss: 0.0471 - Val Loss: 0.0010
+2025-02-26 17:32:03,755 - INFO - Epoch [13/50] - Train Loss: 0.0477 - Val Loss: 0.0009
+2025-02-26 17:32:03,945 - INFO - Epoch [14/50] - Train Loss: 0.0467 - Val Loss: 0.0010
+2025-02-26 17:32:04,137 - INFO - Epoch [15/50] - Train Loss: 0.0485 - Val Loss: 0.0010
+2025-02-26 17:32:04,325 - INFO - Epoch [16/50] - Train Loss: 0.0493 - Val Loss: 0.0011
+2025-02-26 17:32:04,516 - INFO - Epoch [17/50] - Train Loss: 0.0480 - Val Loss: 0.0009
+2025-02-26 17:32:04,718 - INFO - Epoch [18/50] - Train Loss: 0.0486 - Val Loss: 0.0009
+2025-02-26 17:32:04,915 - INFO - Epoch [19/50] - Train Loss: 0.0483 - Val Loss: 0.0011
+2025-02-26 17:32:05,146 - INFO - Epoch [20/50] - Train Loss: 0.0494 - Val Loss: 0.0010
+2025-02-26 17:32:05,348 - INFO - Epoch [21/50] - Train Loss: 0.0489 - Val Loss: 0.0009
+2025-02-26 17:32:05,541 - INFO - Epoch [22/50] - Train Loss: 0.0476 - Val Loss: 0.0013
+2025-02-26 17:32:05,734 - INFO - Epoch [23/50] - Train Loss: 0.0486 - Val Loss: 0.0010
+2025-02-26 17:32:05,734 - INFO - Early stopping triggered!
+2025-02-26 17:32:05,734 - INFO - Training complete. Model saved.
+2025-02-26 17:34:59,941 - INFO - Epoch [1/50] - Train Loss: 0.2578 - Val Loss: 0.1059
+2025-02-26 17:35:00,132 - INFO - Epoch [2/50] - Train Loss: 0.0874 - Val Loss: 0.0143
+2025-02-26 17:35:00,305 - INFO - Epoch [3/50] - Train Loss: 0.0684 - Val Loss: 0.0011
+2025-02-26 17:35:00,483 - INFO - Epoch [4/50] - Train Loss: 0.0516 - Val Loss: 0.0067
+2025-02-26 17:35:00,662 - INFO - Epoch [5/50] - Train Loss: 0.0506 - Val Loss: 0.0012
+2025-02-26 17:35:00,840 - INFO - Epoch [6/50] - Train Loss: 0.0480 - Val Loss: 0.0016
+2025-02-26 17:35:01,012 - INFO - Epoch [7/50] - Train Loss: 0.0490 - Val Loss: 0.0009
+2025-02-26 17:35:01,215 - INFO - Epoch [8/50] - Train Loss: 0.0479 - Val Loss: 0.0010
+2025-02-26 17:35:01,387 - INFO - Epoch [9/50] - Train Loss: 0.0475 - Val Loss: 0.0010
+2025-02-26 17:35:01,566 - INFO - Epoch [10/50] - Train Loss: 0.0486 - Val Loss: 0.0009
+2025-02-26 17:35:01,747 - INFO - Epoch [11/50] - Train Loss: 0.0482 - Val Loss: 0.0009
+2025-02-26 17:35:01,917 - INFO - Epoch [12/50] - Train Loss: 0.0483 - Val Loss: 0.0011
+2025-02-26 17:35:01,917 - INFO - Early stopping triggered!
+2025-02-26 17:35:01,917 - INFO - Training complete. Model saved.

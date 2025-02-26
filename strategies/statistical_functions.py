@@ -1,3 +1,5 @@
+# Statistical Indicators (Mean, Z-Score)
+
 import talib as ta
 
 def BETA_indicator(data):
