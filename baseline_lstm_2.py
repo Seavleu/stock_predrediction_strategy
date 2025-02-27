@@ -10,39 +10,46 @@ from strategies.momentum_indicators import calculate_technical_indicators_2
 from utils.loss_functions import CustomMSELoss
 from core.ai_models.lstm_model import LSTMModel
 from utils.logging_helper import log_message
+from core.data_collection.data_preparation import rank_top_5_stocks
 
-# ✅ NEW DATASET PATH
 DATA_PATH = "data/korean_stock_data.csv"
 MODEL_SAVE_PATH = "models/best_lstm_model_2.pth"
 LOOKBACK_DAYS = 60
 BATCH_SIZE = 32
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.005 #Tested: 0.001
 NUM_EPOCHS = 50
-DROPOUT = 0.2
-HIDDEN_SIZE = 64
-NUM_LAYERS = 2
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DROPOUT = 0.3 #Tested: 0.2, 0.3
+HIDDEN_SIZE = 32 #Tested: 64
+NUM_LAYERS = 1 #Tested: 2
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
 
 
-# ✅ Load and preprocess data (ADJUSTED FOR NEW COLUMN NAMES)
+# ✅ Load and preprocess data 
 ######################################################################################
-def load_data():
-    df = pd.read_csv(DATA_PATH)
+def load_data(batch_size=50000):
+    df_chunks = pd.read_csv(DATA_PATH, chunksize=batch_size)
 
-    # ✅ Convert 'timestamp' to datetime
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
-    df.set_index("timestamp", inplace=True)
+    processed_chunks = []
+    for chunk in df_chunks:
+        chunk["timestamp"] = pd.to_datetime(chunk["timestamp"])
+        chunk.set_index("timestamp", inplace=True)
 
-    # ✅ Apply technical indicators (fix column names)
-    df = calculate_technical_indicators_2(df)
+        # ✅ Apply indicators to each chunk separately
+        chunk = calculate_technical_indicators_2(chunk)
+        
+        # ✅ Convert to float32 to reduce memory usage
+        for col in chunk.select_dtypes(include=["float64"]).columns:
+            chunk[col] = chunk[col].astype("float32")
+
+        processed_chunks.append(chunk)
+
+    df = pd.concat(processed_chunks)
     df.dropna(inplace=True)
 
-    # ✅ Adjust feature selection (Fix: Use 'closing_price' instead of 'Close')
     features = df[['opening_price', 'highest_price', 'lowest_price', 'closing_price', 'trading_volume'] +
                   list(df.columns[df.columns.str.contains('indicator_')])]
-    target = df[['closing_price']]  # Fix: Use 'closing_price'
+    target = df[['closing_price']]
 
-    # ✅ Normalize Data
     scaler = MinMaxScaler()
     features_scaled = scaler.fit_transform(features)
     target_scaled = scaler.fit_transform(target)
@@ -70,7 +77,7 @@ class TimeSeriesDataset(Dataset):
 ######################################################################################
 def train_model(model, train_loader, val_loader, criterion, optimizer):
     best_loss = float('inf')
-    patience = 5
+    patience = 10  # Tested: 5
     patience_counter = 0
 
     for epoch in range(NUM_EPOCHS):
@@ -105,7 +112,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer):
                 val_loss += loss.item()
 
         val_loss /= len(val_loader)
-        log_message(f"Epoch [{epoch+1}/{NUM_EPOCHS}] - Train Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f}")
+        log_message("baseline_lstm_2", f"Epoch [{epoch+1}/{NUM_EPOCHS}] - Train Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f}")
 
         # Early Stopping
         if val_loss < best_loss:
@@ -122,6 +129,9 @@ def train_model(model, train_loader, val_loader, criterion, optimizer):
 # ✅ Main function to run training
 ######################################################################################
 def main():
+    log_message("baseline_lstm_2", "Training started for LSTM_2 model")
+
+    # Load & preprocess data
     features_scaled, target_scaled, scaler = load_data()
     
     split_idx = int(len(features_scaled) * 0.8)
@@ -140,12 +150,16 @@ def main():
         num_layers=NUM_LAYERS,
         dropout=DROPOUT
     ).to(DEVICE)
+ 
+    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, weight_decay=1e-5)
 
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
     criterion = CustomMSELoss()
 
+    log_message("baseline_lstm_2", f"Model initialized. Training for {NUM_EPOCHS} epochs.")
+
     train_model(model, train_loader, val_loader, criterion, optimizer)
-    log_message("Training complete. Model saved.")
+
+    log_message("baseline_lstm_2", "Training complete. Model saved.")
 
 if __name__ == "__main__":
     main()

@@ -9,25 +9,40 @@ from sklearn.preprocessing import MinMaxScaler
 from strategies.momentum_indicators import calculate_technical_indicators
 from utils.loss_functions import CustomMSELoss
 from core.ai_models.lstm_model import LSTMModel
-from utils.logging_helper import log_message
+from utils.logging_helper import log_message 
 
-DATA_PATH = "data/kospi/kospi_weekly_7y.csv"
+DATA_PATH = "data/kospi/kospi_daily_10y.csv"
 MODEL_SAVE_PATH = "models/best_lstm_model.pth"
-LOOKBACK_DAYS = 60
-BATCH_SIZE = 32
-LEARNING_RATE = 0.001
+LOOKBACK_DAYS = 180 #test: 60, 120
+BATCH_SIZE = 32 # test: 32, 64
+LEARNING_RATE = 0.002 #test: 0.001,0.002, 0.005
 NUM_EPOCHS = 50
-DROPOUT = 0.2
-HIDDEN_SIZE = 64
+DROPOUT = 0.6 #test: 0.2, 0.3, 0.4, 0.5 0.6
+HIDDEN_SIZE = 48 #test: 64
 NUM_LAYERS = 2
+weight_decay = 2e-5 #test: 1e-5 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# reduce noise
+######################################################################################
+def augment_data(df, noise_level=0.02):
+    """
+    Adds slight Gaussian noise to 'Close' prices to improve generalization.
+    noise_level: 2% of the standard deviation of 'Close'
+    
+    Inject slight noise to improve generalization
+    """ 
+    noise = np.random.normal(0, 0.02 * df["Close"].std(), size=len(df))
+    df["Close"] += noise
+    return df
 
 # Load and preprocess data
 ######################################################################################
 def load_data():
     df = pd.read_csv(DATA_PATH)
-    df = calculate_technical_indicators(df)  # we will apply indicators (RSI, MACD, etc.)
+
+    df = calculate_technical_indicators(df)  # Apply indicators (RSI, MACD, etc.)
+    df = augment_data(df)  # ✅ Apply augmentation before training
     df.dropna(inplace=True)
 
     features = df[['Open', 'High', 'Low', 'Close', 'Volume'] + list(df.columns[df.columns.str.contains('indicator_')])]
@@ -38,8 +53,6 @@ def load_data():
     target_scaled = scaler.fit_transform(target)
 
     return features_scaled, target_scaled, scaler
-
-
 # Custom PyTorch Dataset
 ######################################################################################
 class TimeSeriesDataset(Dataset):
@@ -59,7 +72,7 @@ class TimeSeriesDataset(Dataset):
 
 # Training function
 ######################################################################################
-def train_model(model, train_loader, val_loader, criterion, optimizer):
+def train_model(model, train_loader, val_loader, criterion, optimizer, scheduler):
     best_loss = float('inf')
     patience = 5
     patience_counter = 0
@@ -69,27 +82,36 @@ def train_model(model, train_loader, val_loader, criterion, optimizer):
         train_loss = 0
         for X_batch, y_batch in train_loader:
             X_batch, y_batch = X_batch.to(DEVICE), y_batch.to(DEVICE)
+
             optimizer.zero_grad()
             y_pred = model(X_batch)
-            loss = criterion(y_pred, y_batch.unsqueeze(1))
+
+            # apply loss weighting
+            loss_weight = torch.abs(y_batch - y_batch.mean()) + 1  # Prevent div by zero
+            loss = (criterion(y_pred, y_batch.view(-1, 1)) * loss_weight).mean()
+
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
         
         train_loss /= len(train_loader)
 
-        # Validation
+        # Validation Phase
         model.eval()
         val_loss = 0
         with torch.no_grad():
             for X_batch, y_batch in val_loader:
                 X_batch, y_batch = X_batch.to(DEVICE), y_batch.to(DEVICE)
                 y_pred = model(X_batch)
-                loss = criterion(y_pred, y_batch.unsqueeze(1))
+                loss = criterion(y_pred, y_batch.view(-1, 1))   
                 val_loss += loss.item()
 
-        val_loss /= len(val_loader)
-        log_message(f"Epoch [{epoch+1}/{NUM_EPOCHS}] - Train Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f}")
+        val_loss /= len(val_loader)  # Compute average validation loss
+
+        # 🔥 Update Learning Rate Scheduler
+        scheduler.step(val_loss)  # 🔥 Pass validation loss
+
+        log_message("baseline_lstm", f"Epoch [{epoch+1}/{NUM_EPOCHS}] - Train Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f}")
 
         # Early Stopping
         if val_loss < best_loss:
@@ -99,15 +121,15 @@ def train_model(model, train_loader, val_loader, criterion, optimizer):
         else:
             patience_counter += 1
             if patience_counter >= patience:
-                log_message("Early stopping triggered!")
+                log_message("baseline_lstm", "Early stopping triggered!")
                 break
-
 
 #  Main function to run training
 ######################################################################################
 def main():
+    log_message("baseline_lstm", "Training started for baseline LSTM model")
     features_scaled, target_scaled, scaler = load_data()
-    
+
     split_idx = int(len(features_scaled) * 0.8)
     X_train, y_train = features_scaled[:split_idx], target_scaled[:split_idx]
     X_val, y_val = features_scaled[split_idx:], target_scaled[split_idx:]
@@ -125,11 +147,23 @@ def main():
         dropout=DROPOUT
     ).to(DEVICE)
 
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    weight_decay = 2e-5  # ✅ Ensure this is defined before use
+    optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=weight_decay)
+
+    # ✅ Learning Rate Scheduler (added correctly) 
+    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.85) #test: step_size=3, gamma=0.9
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
+
+
     criterion = CustomMSELoss()
 
-    train_model(model, train_loader, val_loader, criterion, optimizer)
-    log_message("Training complete. Model saved.")
+    log_message("baseline_lstm", f"Model initialized. Training for {NUM_EPOCHS} epochs.")
+
+    # ✅ Pass scheduler to `train_model`
+    train_model(model, train_loader, val_loader, criterion, optimizer, scheduler)
+
+    log_message("baseline_lstm", "Training complete. Model saved.")
+
 
 #  Evaluate the model on test data
 ######################################################################################
@@ -137,7 +171,7 @@ def evaluate_model(model, test_loader, scaler):
     model.eval()
     predictions = []
     actuals = []
-    
+
     with torch.no_grad():
         for X_batch, y_batch in test_loader:
             X_batch = X_batch.to(DEVICE)
@@ -153,7 +187,6 @@ def evaluate_model(model, test_loader, scaler):
     actuals_rescaled = scaler.inverse_transform(actuals)
 
     return predictions_rescaled, actuals_rescaled
-
 
 
 if __name__ == "__main__":

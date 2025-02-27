@@ -88,3 +88,147 @@
 2025-02-26 17:35:01,917 - INFO - Epoch [12/50] - Train Loss: 0.0483 - Val Loss: 0.0011
 2025-02-26 17:35:01,917 - INFO - Early stopping triggered!
 2025-02-26 17:35:01,917 - INFO - Training complete. Model saved.
+2025-02-27 10:58:47,536 - INFO - Epoch [1/50] - Train Loss: 0.0727 - Val Loss: 0.0117
+2025-02-27 10:58:49,052 - INFO - Epoch [2/50] - Train Loss: 0.0418 - Val Loss: 0.0193
+2025-02-27 10:58:50,602 - INFO - Epoch [3/50] - Train Loss: 0.0414 - Val Loss: 0.0154
+2025-02-27 10:58:52,112 - INFO - Epoch [4/50] - Train Loss: 0.0416 - Val Loss: 0.0149
+2025-02-27 10:58:53,718 - INFO - Epoch [5/50] - Train Loss: 0.0420 - Val Loss: 0.0238
+2025-02-27 10:58:55,473 - INFO - Epoch [6/50] - Train Loss: 0.0415 - Val Loss: 0.0245
+2025-02-27 10:58:55,473 - INFO - Early stopping triggered!
+2025-02-27 10:58:55,473 - INFO - Training complete. Model saved.
+2025-02-27 13:15:21,299 - INFO - Training started for baseline LSTM model
+2025-02-27 13:15:22,297 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:16:14,938 - INFO - Training started for baseline LSTM model
+2025-02-27 13:16:15,876 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:16:17,773 - INFO - Epoch [1/50] - Train Loss: 0.0911 - Val Loss: 0.0281
+2025-02-27 13:16:19,617 - INFO - Epoch [2/50] - Train Loss: 0.0417 - Val Loss: 0.0224
+2025-02-27 13:16:21,434 - INFO - Epoch [3/50] - Train Loss: 0.0421 - Val Loss: 0.0295
+2025-02-27 13:16:23,299 - INFO - Epoch [4/50] - Train Loss: 0.0421 - Val Loss: 0.0235
+2025-02-27 13:16:25,229 - INFO - Epoch [5/50] - Train Loss: 0.0426 - Val Loss: 0.0214
+2025-02-27 13:16:27,056 - INFO - Epoch [6/50] - Train Loss: 0.0416 - Val Loss: 0.0313
+2025-02-27 13:16:28,940 - INFO - Epoch [7/50] - Train Loss: 0.0423 - Val Loss: 0.0208
+2025-02-27 13:16:30,801 - INFO - Epoch [8/50] - Train Loss: 0.0416 - Val Loss: 0.0186
+2025-02-27 13:16:32,634 - INFO - Epoch [9/50] - Train Loss: 0.0417 - Val Loss: 0.0189
+2025-02-27 13:16:34,795 - INFO - Epoch [10/50] - Train Loss: 0.0417 - Val Loss: 0.0174
+2025-02-27 13:16:37,022 - INFO - Epoch [11/50] - Train Loss: 0.0417 - Val Loss: 0.0353
+2025-02-27 13:16:39,271 - INFO - Epoch [12/50] - Train Loss: 0.0420 - Val Loss: 0.0248
+2025-02-27 13:16:41,542 - INFO - Epoch [13/50] - Train Loss: 0.0420 - Val Loss: 0.0234
+2025-02-27 13:16:43,810 - INFO - Epoch [14/50] - Train Loss: 0.0409 - Val Loss: 0.0243
+2025-02-27 13:16:45,903 - INFO - Epoch [15/50] - Train Loss: 0.0415 - Val Loss: 0.0241
+2025-02-27 13:16:45,903 - INFO - Early stopping triggered!
+2025-02-27 13:16:45,903 - INFO - Training complete. Model saved.
+2025-02-27 13:40:04,905 - INFO - Training started for baseline LSTM model
+2025-02-27 13:40:05,690 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:40:08,635 - INFO - Epoch [1/50] - Train Loss: 0.0494 - Val Loss: 0.0273
+2025-02-27 13:40:11,637 - INFO - Epoch [2/50] - Train Loss: 0.0422 - Val Loss: 0.0146
+2025-02-27 13:40:14,771 - INFO - Epoch [3/50] - Train Loss: 0.0427 - Val Loss: 0.0178
+2025-02-27 13:40:17,897 - INFO - Epoch [4/50] - Train Loss: 0.0418 - Val Loss: 0.0163
+2025-02-27 13:40:20,995 - INFO - Epoch [5/50] - Train Loss: 0.0416 - Val Loss: 0.0188
+2025-02-27 13:40:24,373 - INFO - Epoch [6/50] - Train Loss: 0.0413 - Val Loss: 0.0177
+2025-02-27 13:40:28,545 - INFO - Epoch [7/50] - Train Loss: 0.0426 - Val Loss: 0.0110
+2025-02-27 13:40:32,329 - INFO - Epoch [8/50] - Train Loss: 0.0422 - Val Loss: 0.0281
+2025-02-27 13:40:36,174 - INFO - Epoch [9/50] - Train Loss: 0.0424 - Val Loss: 0.0227
+2025-02-27 13:40:40,542 - INFO - Epoch [10/50] - Train Loss: 0.0418 - Val Loss: 0.0254
+2025-02-27 13:40:45,099 - INFO - Epoch [11/50] - Train Loss: 0.0424 - Val Loss: 0.0161
+2025-02-27 13:40:49,933 - INFO - Epoch [12/50] - Train Loss: 0.0417 - Val Loss: 0.0201
+2025-02-27 13:40:49,934 - INFO - Early stopping triggered!
+2025-02-27 13:40:49,934 - INFO - Training complete. Model saved.
+2025-02-27 13:45:18,794 - INFO - Training started for baseline LSTM model
+2025-02-27 13:45:19,671 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:45:22,622 - INFO - Epoch [1/50] - Train Loss: 0.0705 - Val Loss: 0.0141
+2025-02-27 13:45:25,492 - INFO - Epoch [2/50] - Train Loss: 0.0421 - Val Loss: 0.0161
+2025-02-27 13:45:28,370 - INFO - Epoch [3/50] - Train Loss: 0.0412 - Val Loss: 0.0245
+2025-02-27 13:45:31,408 - INFO - Epoch [4/50] - Train Loss: 0.0414 - Val Loss: 0.0314
+2025-02-27 13:45:34,423 - INFO - Epoch [5/50] - Train Loss: 0.0419 - Val Loss: 0.0220
+2025-02-27 13:45:37,784 - INFO - Epoch [6/50] - Train Loss: 0.0417 - Val Loss: 0.0272
+2025-02-27 13:45:37,784 - INFO - Early stopping triggered!
+2025-02-27 13:45:37,785 - INFO - Training complete. Model saved.
+2025-02-27 13:48:28,561 - INFO - Training started for baseline LSTM model
+2025-02-27 13:48:29,391 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:48:36,103 - INFO - Epoch [1/50] - Train Loss: 0.0811 - Val Loss: 0.0315
+2025-02-27 13:48:47,854 - INFO - Epoch [2/50] - Train Loss: 0.0424 - Val Loss: 0.0195
+2025-02-27 13:48:59,509 - INFO - Epoch [3/50] - Train Loss: 0.0418 - Val Loss: 0.0152
+2025-02-27 13:49:10,213 - INFO - Epoch [4/50] - Train Loss: 0.0417 - Val Loss: 0.0203
+2025-02-27 13:49:20,831 - INFO - Epoch [5/50] - Train Loss: 0.0419 - Val Loss: 0.0213
+2025-02-27 13:49:31,576 - INFO - Epoch [6/50] - Train Loss: 0.0416 - Val Loss: 0.0205
+2025-02-27 13:49:42,441 - INFO - Epoch [7/50] - Train Loss: 0.0414 - Val Loss: 0.0202
+2025-02-27 13:49:53,228 - INFO - Epoch [8/50] - Train Loss: 0.0414 - Val Loss: 0.0160
+2025-02-27 13:49:53,228 - INFO - Early stopping triggered!
+2025-02-27 13:49:53,228 - INFO - Training complete. Model saved.
+2025-02-27 13:55:49,092 - INFO - Training started for baseline LSTM model
+2025-02-27 13:55:49,874 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 13:55:55,511 - INFO - Epoch [1/50] - Train Loss: 0.0811 - Val Loss: 0.0299
+2025-02-27 13:56:01,452 - INFO - Epoch [2/50] - Train Loss: 0.0414 - Val Loss: 0.0209
+2025-02-27 13:56:07,437 - INFO - Epoch [3/50] - Train Loss: 0.0419 - Val Loss: 0.0219
+2025-02-27 13:56:13,937 - INFO - Epoch [4/50] - Train Loss: 0.0427 - Val Loss: 0.0254
+2025-02-27 13:56:22,270 - INFO - Epoch [5/50] - Train Loss: 0.0414 - Val Loss: 0.0242
+2025-02-27 13:56:31,097 - INFO - Epoch [6/50] - Train Loss: 0.0413 - Val Loss: 0.0166
+2025-02-27 13:56:38,898 - INFO - Epoch [7/50] - Train Loss: 0.0411 - Val Loss: 0.0217
+2025-02-27 13:56:47,295 - INFO - Epoch [8/50] - Train Loss: 0.0409 - Val Loss: 0.0090
+2025-02-27 13:56:55,655 - INFO - Epoch [9/50] - Train Loss: 0.0414 - Val Loss: 0.0252
+2025-02-27 13:57:04,873 - INFO - Epoch [10/50] - Train Loss: 0.0408 - Val Loss: 0.0164
+2025-02-27 13:57:13,829 - INFO - Epoch [11/50] - Train Loss: 0.0410 - Val Loss: 0.0164
+2025-02-27 13:57:24,356 - INFO - Epoch [12/50] - Train Loss: 0.0409 - Val Loss: 0.0259
+2025-02-27 13:57:35,285 - INFO - Epoch [13/50] - Train Loss: 0.0411 - Val Loss: 0.0250
+2025-02-27 13:57:35,285 - INFO - Early stopping triggered!
+2025-02-27 13:57:35,285 - INFO - Training complete. Model saved.
+2025-02-27 14:00:11,887 - INFO - Training started for baseline LSTM model
+2025-02-27 14:00:31,288 - INFO - Training started for baseline LSTM model
+2025-02-27 14:00:32,096 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:00:38,580 - INFO - Epoch [1/50] - Train Loss: 0.0648 - Val Loss: 0.0164
+2025-02-27 14:00:46,555 - INFO - Epoch [2/50] - Train Loss: 0.0423 - Val Loss: 0.0170
+2025-02-27 14:00:54,788 - INFO - Epoch [3/50] - Train Loss: 0.0419 - Val Loss: 0.0204
+2025-02-27 14:01:03,416 - INFO - Epoch [4/50] - Train Loss: 0.0419 - Val Loss: 0.0116
+2025-02-27 14:01:12,431 - INFO - Epoch [5/50] - Train Loss: 0.0424 - Val Loss: 0.0143
+2025-02-27 14:01:21,615 - INFO - Epoch [6/50] - Train Loss: 0.0422 - Val Loss: 0.0192
+2025-02-27 14:01:30,987 - INFO - Epoch [7/50] - Train Loss: 0.0421 - Val Loss: 0.0132
+2025-02-27 14:01:40,629 - INFO - Epoch [8/50] - Train Loss: 0.0415 - Val Loss: 0.0193
+2025-02-27 14:01:50,522 - INFO - Epoch [9/50] - Train Loss: 0.0416 - Val Loss: 0.0209
+2025-02-27 14:01:50,523 - INFO - Early stopping triggered!
+2025-02-27 14:01:50,523 - INFO - Training complete. Model saved.
+2025-02-27 14:04:17,535 - INFO - Training started for baseline LSTM model
+2025-02-27 14:05:02,769 - INFO - Training started for baseline LSTM model
+2025-02-27 14:05:03,595 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:05:09,574 - INFO - Epoch [1/50] - Train Loss: 0.0754 - Val Loss: 0.0203
+2025-02-27 14:05:16,681 - INFO - Epoch [2/50] - Train Loss: 0.0415 - Val Loss: 0.0152
+2025-02-27 14:05:24,138 - INFO - Epoch [3/50] - Train Loss: 0.0417 - Val Loss: 0.0309
+2025-02-27 14:05:31,993 - INFO - Epoch [4/50] - Train Loss: 0.0421 - Val Loss: 0.0298
+2025-02-27 14:05:41,209 - INFO - Epoch [5/50] - Train Loss: 0.0416 - Val Loss: 0.0217
+2025-02-27 14:05:50,733 - INFO - Epoch [6/50] - Train Loss: 0.0412 - Val Loss: 0.0186
+2025-02-27 14:06:00,277 - INFO - Epoch [7/50] - Train Loss: 0.0417 - Val Loss: 0.0138
+2025-02-27 14:06:10,307 - INFO - Epoch [8/50] - Train Loss: 0.0412 - Val Loss: 0.0160
+2025-02-27 14:06:20,592 - INFO - Epoch [9/50] - Train Loss: 0.0412 - Val Loss: 0.0180
+2025-02-27 14:06:30,944 - INFO - Epoch [10/50] - Train Loss: 0.0409 - Val Loss: 0.0261
+2025-02-27 14:06:41,486 - INFO - Epoch [11/50] - Train Loss: 0.0415 - Val Loss: 0.0282
+2025-02-27 14:06:53,180 - INFO - Epoch [12/50] - Train Loss: 0.0412 - Val Loss: 0.0209
+2025-02-27 14:06:53,181 - INFO - Early stopping triggered!
+2025-02-27 14:06:53,181 - INFO - Training complete. Model saved.
+
+2025-02-27 14:10:54,902 - INFO - Training started for baseline LSTM model
+2025-02-27 14:10:55,724 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:11:01,411 - INFO - Epoch [1/50] - Train Loss: 0.1074 - Val Loss: 0.0172
+2025-02-27 14:12:44,082 - INFO - Training started for baseline LSTM model
+2025-02-27 14:12:45,068 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:12:51,070 - INFO - Epoch [1/50] - Train Loss: 0.0709 - Val Loss: 0.0254
+2025-02-27 14:13:31,777 - INFO - Training started for baseline LSTM model
+2025-02-27 14:13:32,597 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:13:38,496 - INFO - Epoch [1/50] - Train Loss: 0.0610 - Val Loss: 0.0212
+2025-02-27 14:16:28,148 - INFO - Training started for baseline LSTM model
+2025-02-27 14:16:29,001 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:16:43,888 - INFO - Training started for baseline LSTM model
+2025-02-27 14:16:44,711 - INFO - Model initialized. Training for 50 epochs.
+2025-02-27 14:16:49,404 - INFO - Epoch [1/50] - Train Loss: 0.0189 - Val Loss: 0.0012
+2025-02-27 14:16:54,540 - INFO - Epoch [2/50] - Train Loss: 0.0042 - Val Loss: 0.0012
+2025-02-27 14:16:59,780 - INFO - Epoch [3/50] - Train Loss: 0.0033 - Val Loss: 0.0015
+2025-02-27 14:17:05,377 - INFO - Epoch [4/50] - Train Loss: 0.0033 - Val Loss: 0.0015
+2025-02-27 14:17:11,210 - INFO - Epoch [5/50] - Train Loss: 0.0032 - Val Loss: 0.0011
+2025-02-27 14:17:17,426 - INFO - Epoch [6/50] - Train Loss: 0.0030 - Val Loss: 0.0008
+2025-02-27 14:17:24,638 - INFO - Epoch [7/50] - Train Loss: 0.0027 - Val Loss: 0.0008
+2025-02-27 14:17:32,878 - INFO - Epoch [8/50] - Train Loss: 0.0030 - Val Loss: 0.0008
+2025-02-27 14:17:41,652 - INFO - Epoch [9/50] - Train Loss: 0.0027 - Val Loss: 0.0012
+2025-02-27 14:17:50,451 - INFO - Epoch [10/50] - Train Loss: 0.0038 - Val Loss: 0.0011
+2025-02-27 14:17:58,668 - INFO - Epoch [11/50] - Train Loss: 0.0031 - Val Loss: 0.0013
+2025-02-27 14:18:07,190 - INFO - Epoch [12/50] - Train Loss: 0.0029 - Val Loss: 0.0009
+2025-02-27 14:18:16,618 - INFO - Epoch [13/50] - Train Loss: 0.0029 - Val Loss: 0.0008
+2025-02-27 14:18:16,618 - INFO - Early stopping triggered!
+2025-02-27 14:18:16,618 - INFO - Training complete. Model saved.

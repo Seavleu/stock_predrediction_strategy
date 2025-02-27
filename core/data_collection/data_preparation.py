@@ -21,7 +21,22 @@ def prepare_data(df, target_col='close', lookback_days=60, train_split=0.8, val_
     val_size = int(len(X) * val_split)
 
     return X[:train_size], y[:train_size], X[train_size:train_size+val_size], y[train_size:train_size+val_size], X[train_size+val_size:], y[train_size+val_size:], scaler
- 
+
+def rank_top_5_stocks(df):
+    """Rank top 5 companies based on average price change & volume."""
+    df["daily_return"] = df["closing_price"].pct_change()
+    stock_performance = df.groupby("company").agg(
+        avg_return=("daily_return", "mean"),
+        avg_volume=("trading_volume", "mean")
+    )
+
+    # Rank by avg return and volume, select top 5
+    stock_performance["score"] = stock_performance["avg_return"] + stock_performance["avg_volume"]
+    top_5_stocks = stock_performance.sort_values(by="score", ascending=False).head(5).index.tolist()
+
+    return df[df["company"].isin(top_5_stocks)]
+
+
 # def fetch_stock_data(ticker, source='yfinance'):
 #     """Fetch stock data from various sources."""
 #     if source == 'yfinance':

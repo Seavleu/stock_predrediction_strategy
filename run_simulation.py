@@ -7,7 +7,7 @@ from strategies.volume_indicators import CMF_indicator, AD_indicator
 from utils.data_loader import load_stock_data
 from utils.trade_logic import execute_trade_logic 
 
-DATA_PATH = "data/kospi/kospi_weekly_7y.csv"
+DATA_PATH = "data/kospi/kospi_daily_10y.csv"
 data = load_stock_data(DATA_PATH)
 
 # List to store the signals and trades

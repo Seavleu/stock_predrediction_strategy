@@ -31,13 +31,29 @@ def calculate_technical_indicators(df):
     df['ATR'] = ta.ATR(df['High'], df['Low'], df['Close'], timeperiod=14)
     return df
 
-def calculate_technical_indicators_2(df): 
-    df['RSI'] = ta.RSI(df['closing_price'], timeperiod=14)
-    df['MACD'], _, _ = ta.MACD(df['closing_price'], fastperiod=12, slowperiod=26, signalperiod=9)
-    df['EMA_20'] = ta.EMA(df['closing_price'], timeperiod=20)
-    df['EMA_50'] = ta.EMA(df['closing_price'], timeperiod=50)
-    df['ATR'] = ta.ATR(df['highest_price'], df['lowest_price'], df['closing_price'], timeperiod=14)
+
+def calculate_technical_indicators_2(df):
+    """Compute technical indicators efficiently to avoid memory issues."""
     
+    # ✅ Process indicators in chunks (grouped by company)
+    indicators = []
+
+    for name, group in df.groupby("company"):
+        group = group.sort_index()
+
+        # ✅ Apply technical indicators only on relevant columns
+        group["SMA_50"] = ta.SMA(group["closing_price"], timeperiod=50)
+        group["EMA_20"] = ta.EMA(group["closing_price"], timeperiod=20)
+        group["MACD"], group["MACD_signal"], _ = ta.MACD(group["closing_price"], fastperiod=12, slowperiod=26, signalperiod=9)
+        group["RSI"] = ta.RSI(group["closing_price"], timeperiod=14)
+
+        indicators.append(group)
+
+    df = pd.concat(indicators)
+
+    # ✅ Drop NaN values after calculations
+    df.dropna(inplace=True)
+
     return df
 
 # Implement decision rules combining technical + AI model outputs
