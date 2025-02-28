@@ -13,64 +13,56 @@ portfolio size limitations.
 """
 from typing import List, Dict, Literal, Any
 
-# ✅ Predefined Risk Management Constants
-STOP_LOSS = 0.97  # Sell if the price drops 3%
-TAKE_PROFIT = 1.05  # Sell if the price rises 5%
-POSITION_SIZE = 0.5  # Allocate 50% of the portfolio per trade
+# risk management
+STOP_LOSS = 0.97  # sell if price drops 3%
+TAKE_PROFIT = 1.05  # sell if price rises 5%
+POSITION_SIZE = 0.5  # allocate 50% of portfolio per trade
 
-
-def execute_trade_logic(data: Dict[str, Any], strategy: str, position: float, cash: float) -> Literal['Executing Buy Order', 'Executing Sell Order', 'Holding']:
-    """
-    Execute trading logic based on strategy signals.
-
-    Parameters:
-    - data: Dictionary containing stock data for the current row.
-    - strategy: Trade signal ('Buy', 'Sell', 'Hold').
-    - position: The current position size.
-    - cash: Available cash balance.
-
-    Returns:
-    - A message indicating the action taken.
-    """
+def execute_trade_logic(data: Dict[str, Any], strategy: str, position: float, cash: float, entry_price: float):
     price = data['Close']
 
+    # ✅ stop-Loss & take-Profit Execution (Prioritize forced exits)
+    if position > 0:
+        if price >= entry_price * TAKE_PROFIT:
+            cash += position * price
+            print(f"🎯 Take-Profit Triggered: Sold at {price:.2f}, Position Closed, New Cash: {cash:.2f}")
+            return 0, cash, 0  # ✅ Reset position
+
+        if price <= entry_price * STOP_LOSS:
+            cash += position * price
+            print(f"🚨 Stop-Loss Triggered: Sold at {price:.2f}, Position Closed, New Cash: {cash:.2f}")
+            return 0, cash, 0  # ✅ Reset position
+
+    # ✅ selling happens when `Sell Score ≥ 3.0`
+    if strategy == "Sell" and position > 0:
+        cash += position * price  # ✅ Convert position to cash
+        print(f"📉 Executing Sell Order at {price:.2f}, Closing Position: {position:.4f}, New Cash: {cash:.2f}")
+        return 0, cash, 0  # ✅ Reset position
+
+    elif strategy == "Sell" and position == 0:
+        print(f"⚠️ Sell signal detected but no position is open! Skipping trade.")
+
+    # ✅ buy Condition (Only if no position)
     if strategy == "Buy" and position == 0:
-        # ✅ Buy using POSITION_SIZE allocation
         buy_amount = cash * POSITION_SIZE
         new_position = buy_amount / price
-        print(f"Executing Buy Order at {price:.2f}, New Position: {new_position:.4f}")
-        return 'Executing Buy Order'
+        cash -= buy_amount
+        print(f"✅ Executing Buy Order at {price:.2f}, New Position: {new_position:.4f}, Cash Left: {cash:.2f}")
+        return new_position, cash, price  # ✅ save entry_price
 
-    elif strategy == "Sell" and position > 0:
-        # ✅ Sell the existing position
-        print(f"Executing Sell Order at {price:.2f}, Closing Position: {position:.4f}")
-        return 'Executing Sell Order'
-
-    else:
-        print("Holding Position")
-        return 'Holding'
+    # ✅ if no buy/sell action, return unchanged values
+    print("⚠️ Holding Position")
+    return position, cash, entry_price
 
 
-def execute_trade_logic_based_on_signals(data: Dict[str, Any], signals: List[Dict[str, str]]) -> str:
-    """
-    Aggregates trade signals and determines final Buy/Sell/Hold action.
-
-    Parameters:
-    - data: Dictionary containing stock data for the current row.
-    - signals: List of dictionaries containing signals from multiple indicators.
-
-    Returns:
-    - The action to take ('Buy', 'Sell', 'Hold').
-    """
-    # ✅ Weighted System for Stronger Signals
+def execute_trade_logic_based_on_signals(data, signals):
     weight_map = {
         "BBANDS": 1.2, "EMA": 1.1, "MACD": 1.5, "RSI": 1.3, 
         "ATR": 1.1, "ADX": 1.4, "OBV": 1.2, "SAR": 1.3, 
-        "CCI": 1.1, "Fibonacci": 1.0
+        "CCI": 1.1, "LSTM_Pred": 1.5   
     }
 
-    buy_score = 0
-    sell_score = 0
+    buy_score, sell_score = 0, 0
 
     for signal in signals:
         for indicator, value in signal.items():
@@ -79,37 +71,22 @@ def execute_trade_logic_based_on_signals(data: Dict[str, Any], signals: List[Dic
             elif value == "Sell":
                 sell_score += weight_map.get(indicator, 1)
 
-    # ✅ Enhanced Trade Decision Logic (Higher threshold for more reliable trades)
-    if buy_score >= 4.0:  # More confident Buy
-        print(f"Date: {data['Date']}, Action: Buy, Score: {buy_score:.2f}")
+    # ✅ add LSTM Prediction in Decision Logic
+    lstm_pred_price = signals[-1]["LSTM_Pred"]
+    actual_close_price = data["Close"]
+
+    if lstm_pred_price > actual_close_price * 1.02:  # Expect 2% increase
+        buy_score += 3.0  
+    elif lstm_pred_price < actual_close_price * 0.98:  # Expect 2% drop
+        sell_score += 3.0  
+
+    if buy_score >= 3.0:  
+        print(f"Date: {data['Date']}, Action: Buy, Buy Score: {buy_score:.2f}, Sell Score: {sell_score:.2f}")
         return "Buy"
-    elif sell_score >= 4.0:  # More confident Sell
-        print(f"Date: {data['Date']}, Action: Sell, Score: {sell_score:.2f}")
+    elif sell_score >= 3.0:  
+        print(f"Date: {data['Date']}, Action: Sell, Buy Score: {buy_score:.2f}, Sell Score: {sell_score:.2f}")
         return "Sell"
     else:
         print(f"Date: {data['Date']}, Action: Hold, Buy Score: {buy_score:.2f}, Sell Score: {sell_score:.2f}")
         return "Hold"
 
-
-def generate_trade_signal(price_pred: float, macd_signal: str, adx: float, rsi: float, atr: float, sentiment_score: float, confidence: float = 0.8) -> str:
-    """
-    Generates a trade signal using multiple indicators.
-
-    Parameters:
-    - price_pred: Predicted price movement ratio (e.g., 1.02 for +2%).
-    - macd_signal: MACD output ('Buy', 'Sell', 'Hold').
-    - adx: ADX value (trend strength).
-    - rsi: RSI value (momentum indicator).
-    - atr: ATR value (volatility measure).
-    - sentiment_score: Sentiment analysis output (-1 to +1).
-    - confidence: Model confidence in the prediction (default=0.8).
-
-    Returns:
-    - 'BUY', 'SELL', or 'HOLD' decision.
-    """
-    if price_pred > 1.02 and macd_signal == "Buy" and adx > 25 and rsi < 35 and atr > 2:
-        return "BUY" if confidence > 0.8 else "HOLD"
-    elif price_pred < 0.98 and macd_signal == "Sell" and adx < 20 and rsi > 65 and sentiment_score < -0.5:
-        return "SELL"
-    else:
-        return "HOLD"
