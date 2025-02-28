@@ -1,83 +1,82 @@
-# Training
-######################################################################################
-from strategies.overlap_studies import BBANDS_indicator, EMA_indicator
-from strategies.momentum_indicators import MACD_indicator, RSI_indicator, STOCH_indicator, WILLR_indicator, MFI_indicator
-from strategies.volume_indicators import CMF_indicator, AD_indicator
-
+from strategies.momentum_indicators import (
+    MACD_indicator, RSI_indicator, STOCH_indicator, WILLR_indicator, MFI_indicator,
+    ADX_indicator, ATR_indicator, CCI_indicator, Parabolic_SAR_indicator, OBV_indicator,
+    BBANDS_indicator, EMA_indicator
+) 
 from utils.data_loader import load_stock_data
-from utils.trade_logic import execute_trade_logic 
+from utils.trade_logic import execute_trade_logic_based_on_signals, execute_trade_logic
 
 DATA_PATH = "data/kospi/kospi_daily_10y.csv"
 data = load_stock_data(DATA_PATH)
 
-# List to store the signals and trades
+portfolio_value = 10000  # Starting capital
+position = 0  # No open position initially
+cash = portfolio_value
 signals = []
 trades = []
 
-portfolio_value = 10000  # Starting portfolio value
-position = 0  # No position initially
-cash = portfolio_value
-
-# Loop through each data point
+# ✅ Iterate Over Data & Apply Trading Logic
 for i in range(len(data)):
-    # Existing indicators
-    signal_bbands = BBANDS_indicator(data.iloc[i:i+1])
-    signal_ema = EMA_indicator(data.iloc[i:i+1])
-    signal_macd = MACD_indicator(data.iloc[i:i+1])
-    signal_rsi = RSI_indicator(data.iloc[i:i+1])
+    row = data.iloc[i:i+1]
 
-    # New indicators
-    signal_mfi = MFI_indicator(data.iloc[i:i+1])
-    signal_willr = WILLR_indicator(data.iloc[i:i+1])
-    signal_cmf = CMF_indicator(data.iloc[i:i+1])
-    signal_stoch = STOCH_indicator(data.iloc[i:i+1])
-    signal_ad = AD_indicator(data.iloc[i:i+1])
-    
-    # Append all signals to the list
+    # ✅ Compute Technical Indicators
+    signal_bbands = BBANDS_indicator(row)
+    signal_ema = EMA_indicator(row)
+    signal_macd = MACD_indicator(row)
+    signal_rsi = RSI_indicator(row)
+    signal_mfi = MFI_indicator(row)
+    signal_willr = WILLR_indicator(row)
+    signal_stoch = STOCH_indicator(row)
+    signal_adx = ADX_indicator(row)
+    signal_atr = ATR_indicator(row)
+    signal_cci = CCI_indicator(row)
+    signal_sar = Parabolic_SAR_indicator(row)
+    signal_obv = OBV_indicator(row)  
+
+    # ✅ Store Signals
     signals.append({
-        "Date": data.iloc[i]["date"].strftime('%Y-%m-%d'), 
+        "Date": data.iloc[i]["Date"],
         "BBANDS": signal_bbands,
         "EMA": signal_ema,
         "MACD": signal_macd,
         "RSI": signal_rsi,
         "MFI": signal_mfi,
         "WILLR": signal_willr,
-        "CMF": signal_cmf,
         "STOCH": signal_stoch,
-        "AD": signal_ad
+        "ADX": signal_adx,
+        "ATR": signal_atr,
+        "CCI": signal_cci,
+        "SAR": signal_sar,
+        "OBV": signal_obv,
     })
 
-    # Aggregate signals (use majority rule or any other aggregation strategy)
-    buy_signals = sum(1 for signal in signals[-1].values() if signal == "Buy")
-    sell_signals = sum(1 for signal in signals[-1].values() if signal == "Sell")
+    # ✅ Determine Trade Signal
+    trade_signal = execute_trade_logic_based_on_signals(data.iloc[i], signals)
 
-    # Decide on trade based on majority rule
-    if buy_signals > sell_signals:
-        trade_signal = "Buy"
-    elif sell_signals > buy_signals:
-        trade_signal = "Sell"
-    else:
-        trade_signal = "Hold"
+    # ✅ Execute Trade & Update Portfolio
+    trade_action = execute_trade_logic(data.iloc[i], trade_signal, position, cash)
 
-    # Execute trade and track portfolio
-    if trade_signal == "Buy" and position == 0:  # Buy if no position
-        position = cash / data.iloc[i]["closing_price"]
-        cash = 0
-        trades.append(f"Buy at {data.index[i]} - {data.iloc[i]['closing_price']}")
-        
-    elif trade_signal == "Sell" and position > 0:  # Sell if holding position
-        cash = position * data.iloc[i]["closing_price"]
+    price = data.iloc[i]["Close"]
+    
+    if trade_action == "Executing Buy Order":
+        buy_amount = cash * 0.5  # Allocate 50% of cash to buying
+        position = buy_amount / price
+        cash -= buy_amount
+        trades.append(f"Buy at {data.iloc[i]['Date']} - {price:.2f}")
+
+    elif trade_action == "Executing Sell Order":
+        cash += position * price
         position = 0
-        trades.append(f"Sell at {data.index[i]} - {data.iloc[i]['closing_price']}")
+        trades.append(f"Sell at {data.iloc[i]['Date']} - {price:.2f}")
 
-    # Print portfolio status after each transaction
-    current_value = cash + (position * data.iloc[i]["closing_price"]) if position > 0 else cash
-    print(f"Date: {data.iloc[i]['date'].strftime('%Y-%m-%d')}, Portfolio Value: {current_value}")  
+    # ✅ Print Portfolio Status
+    current_value = cash + (position * price) if position > 0 else cash
+    print(f"Date: {data.iloc[i]['Date']}, Portfolio Value: {current_value:.2f}")
 
-# Final portfolio value (cash + any position left)
-final_value = cash + (position * data.iloc[-1]["closing_price"]) if position > 0 else cash
-print(f"\nFinal Portfolio Value: {final_value}")
-print("Trades:", trades)
+# ✅ Final Portfolio Value Calculation
+final_value = cash + (position * data.iloc[-1]["Close"]) if position > 0 else cash
+print(f"\nFinal Portfolio Value: {final_value:.2f}")
+print("Trades Executed:", trades)
 
 print("\nAll Signals:")
 for signal in signals:

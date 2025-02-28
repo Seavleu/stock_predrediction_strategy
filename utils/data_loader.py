@@ -1,18 +1,22 @@
 import pandas as pd
 
 def load_stock_data(filepath):
-    """Load stock data and standardize column names."""
-    df = pd.read_csv(filepath, parse_dates=["Date" if "Date" in pd.read_csv(filepath, nrows=1).columns else "timestamp"])
+    """Load stock data and ensure flexible column naming."""
+    df = pd.read_csv(filepath)
 
-    # Standardize column names
-    if "Date" in df.columns:  # KOSPI dataset
+    if {"opening_price", "highest_price", "lowest_price", "closing_price", "trading_volume"}.issubset(df.columns):
         df.rename(columns={
-            "Date": "date",
-            "Open": "opening_price",
-            "High": "highest_price",
-            "Low": "lowest_price",
-            "Close": "closing_price",
-            "Volume": "trading_volume"
+            "opening_price": "Open",
+            "highest_price": "High",
+            "lowest_price": "Low",
+            "closing_price": "Close",
+            "trading_volume": "Volume"
         }, inplace=True)
+
+    if "timestamp" in df.columns:
+        df.rename(columns={"timestamp": "Date"}, inplace=True)
+
+    if "Date" in df.columns:
+        df["Date"] = pd.to_datetime(df["Date"])
 
     return df

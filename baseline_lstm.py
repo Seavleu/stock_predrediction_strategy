@@ -13,14 +13,14 @@ from utils.logging_helper import log_message
 
 DATA_PATH = "data/kospi/kospi_daily_10y.csv"
 MODEL_SAVE_PATH = "models/best_lstm_model.pth"
-LOOKBACK_DAYS = 180 #test: 60, 120
-BATCH_SIZE = 32 # test: 32, 64
-LEARNING_RATE = 0.002 #test: 0.001,0.002, 0.005
+LOOKBACK_DAYS = 240 #🔴test: 60, 120, 240
+BATCH_SIZE = 32 # t🔴est: 32, 64
+LEARNING_RATE = 0.002 #🔴test: 0.001,0.002, 0.005
 NUM_EPOCHS = 50
-DROPOUT = 0.6 #test: 0.2, 0.3, 0.4, 0.5 0.6
-HIDDEN_SIZE = 48 #test: 64
+DROPOUT = 0.6 #🔴test: 0.2, 0.3, 0.4, 0.5 0.6
+HIDDEN_SIZE = 48 #🔴test: 64
 NUM_LAYERS = 2
-weight_decay = 2e-5 #test: 1e-5 
+weight_decay = 2e-5 #🔴test: 1e-5 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # reduce noise
@@ -53,6 +53,7 @@ def load_data():
     target_scaled = scaler.fit_transform(target)
 
     return features_scaled, target_scaled, scaler
+
 # Custom PyTorch Dataset
 ######################################################################################
 class TimeSeriesDataset(Dataset):
@@ -124,7 +125,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, scheduler
                 log_message("baseline_lstm", "Early stopping triggered!")
                 break
 
-#  Main function to run training
+#  Main function to run training and evaluation
 ######################################################################################
 def main():
     log_message("baseline_lstm", "Training started for baseline LSTM model")
@@ -147,23 +148,35 @@ def main():
         dropout=DROPOUT
     ).to(DEVICE)
 
-    weight_decay = 2e-5  # ✅ Ensure this is defined before use
+    weight_decay = 2e-5  
     optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=weight_decay)
 
-    # ✅ Learning Rate Scheduler (added correctly) 
-    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.85) #test: step_size=3, gamma=0.9
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
-
-
     criterion = CustomMSELoss()
 
     log_message("baseline_lstm", f"Model initialized. Training for {NUM_EPOCHS} epochs.")
 
-    # ✅ Pass scheduler to `train_model`
+    # Train the model
     train_model(model, train_loader, val_loader, criterion, optimizer, scheduler)
 
-    log_message("baseline_lstm", "Training complete. Model saved.")
+    # Load the best saved model before evaluation
+    model.load_state_dict(torch.load(MODEL_SAVE_PATH))
+    model.eval()
 
+    log_message("baseline_lstm", "Training complete. Running evaluation...")
+
+    # Prepare Test Data for Evaluation
+    test_dataset = TimeSeriesDataset(X_val, y_val, LOOKBACK_DAYS)
+    test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE)
+
+    # ✅ Evaluate Model
+    predictions, actuals = evaluate_model(model, test_loader, scaler)
+
+    # ✅ Save Predictions for Analysis
+    results_df = pd.DataFrame({"Actual": actuals.flatten(), "Predicted": predictions.flatten()})
+    results_df.to_csv("predictions_baseline_lstm.csv", index=False)
+
+    log_message("baseline_lstm", "Evaluation complete. Predictions saved to predictions_baseline_lstm.csv.")
 
 #  Evaluate the model on test data
 ######################################################################################
@@ -182,12 +195,11 @@ def evaluate_model(model, test_loader, scaler):
     predictions = np.concatenate(predictions)
     actuals = np.concatenate(actuals)
 
-    # Inverse transform back to actual stock prices
+    #inverse transform back to actual stock prices
     predictions_rescaled = scaler.inverse_transform(predictions)
     actuals_rescaled = scaler.inverse_transform(actuals)
 
     return predictions_rescaled, actuals_rescaled
-
 
 if __name__ == "__main__":
     main()
